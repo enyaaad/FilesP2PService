@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package device;
+
+option go_package = "github.com/backend-app/backend/pkg/proto/device";
+
+service DeviceService {
+  rpc RegisterDevice(RegisterDeviceRequest) returns (RegisterDeviceResponse);
+  rpc GetDevice(GetDeviceRequest) returns (GetDeviceResponse);
+  rpc ListDevices(ListDevicesRequest) returns (ListDevicesResponse);
+  rpc UpdateDevice(UpdateDeviceRequest) returns (UpdateDeviceResponse);
+  rpc DeleteDevice(DeleteDeviceRequest) returns (DeleteDeviceResponse);
+  rpc UpdateLastSeen(UpdateLastSeenRequest) returns (UpdateLastSeenResponse);
+}
+
+message RegisterDeviceRequest {
+  string user_id = 1;
+  string name = 2;
+  string device_type = 3;
+}
+
+message RegisterDeviceResponse {
+  Device device = 1;
+  string device_token = 2;
+}
+
+message GetDeviceRequest {
+  string device_id = 1;
+  string user_id = 2;
+}
+
+message GetDeviceResponse {
+  Device device = 1;
+}
+
+message ListDevicesRequest {
+  string user_id = 1;
+}
+
+message ListDevicesResponse {
+  repeated Device devices = 1;
+}
+
+message UpdateDeviceRequest {
+  string device_id = 1;
+  string user_id = 2;
+  string name = 3;
+  string device_type = 4;
+}
+
+message UpdateDeviceResponse {
+  Device device = 1;
+}
+
+message DeleteDeviceRequest {
+  string device_id = 1;
+  string user_id = 2;
+}
+
+message DeleteDeviceResponse {
+  bool success = 1;
+}
+
+message UpdateLastSeenRequest {
+  string device_id = 1;
+}
+
+message UpdateLastSeenResponse {
+  bool success = 1;
+}
+
+message Device {
+  string id = 1;
+  string user_id = 2;
+  string name = 3;
+  string device_type = 4;
+  string device_token = 5;
+  string last_seen_at = 6;
+  string created_at = 7;
+  string updated_at = 8;
+}

@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package transfer;
+
+option go_package = "github.com/backend-app/backend/pkg/proto/transfer";
+
+service TransferService {
+  rpc CreateTransfer(CreateTransferRequest) returns (CreateTransferResponse);
+  rpc GetTransfer(GetTransferRequest) returns (GetTransferResponse);
+  rpc UpdateTransferStatus(UpdateTransferStatusRequest) returns (UpdateTransferStatusResponse);
+  rpc ListTransfers(ListTransfersRequest) returns (ListTransfersResponse);
+  rpc StreamTransferProgress(StreamTransferProgressRequest) returns (stream TransferProgressUpdate);
+}
+
+message CreateTransferRequest {
+  string file_id = 1;
+  string from_device_id = 2;
+  string to_device_id = 3;
+  string transfer_type = 4;
+}
+
+message CreateTransferResponse {
+  Transfer transfer = 1;
+}
+
+message GetTransferRequest {
+  string transfer_id = 1;
+}
+
+message GetTransferResponse {
+  Transfer transfer = 1;
+}
+
+message UpdateTransferStatusRequest {
+  string transfer_id = 1;
+  string status = 2;
+  int64 progress = 3;
+}
+
+message UpdateTransferStatusResponse {
+  Transfer transfer = 1;
+}
+
+message ListTransfersRequest {
+  string file_id = 1;
+  string status = 2;
+}
+
+message ListTransfersResponse {
+  repeated Transfer transfers = 1;
+}
+
+message StreamTransferProgressRequest {
+  string transfer_id = 1;
+}
+
+message TransferProgressUpdate {
+  string transfer_id = 1;
+  string status = 2;
+  int64 progress = 3;
+  int64 total_size = 4;
+}
+
+message Transfer {
+  string id = 1;
+  string file_id = 2;
+  string from_device_id = 3;
+  string to_device_id = 4;
+  string transfer_type = 5;
+  string status = 6;
+  int64 progress = 7;
+  string created_at = 8;
+  string updated_at = 9;
+}
